@@ -1,4 +1,5 @@
-import { motion } from 'motion/react';
+import { useRef } from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { Zap, Wifi, Shield, Sun, Wrench, Home, BatteryCharging } from 'lucide-react';
 
 const services = [
@@ -39,6 +40,54 @@ const services = [
   }
 ];
 
+function TiltCard({ children, index }: { children: React.ReactNode; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const rotateX = useSpring(useTransform(rawY, [-0.5, 0.5], [7, -7]), { damping: 20, stiffness: 200 });
+  const rotateY = useSpring(useTransform(rawX, [-0.5, 0.5], [-7, 7]), { damping: 20, stiffness: 200 });
+  const y = useSpring(useMotionValue(0), { damping: 20, stiffness: 200 });
+  const bgColor = useMotionValue('rgb(255,255,255)');
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    rawX.set((e.clientX - rect.left) / rect.width - 0.5);
+    rawY.set((e.clientY - rect.top) / rect.height - 0.5);
+    y.set(-6);
+    bgColor.set('rgb(240,253,244)');
+  };
+
+  const handleMouseLeave = () => {
+    rawX.set(0);
+    rawY.set(0);
+    y.set(0);
+    bgColor.set('rgb(255,255,255)');
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        y,
+        backgroundColor: bgColor,
+        transformPerspective: 900,
+      }}
+      className="p-10 border-r border-b border-gray-200 border-dashed group transition-colors duration-300 cursor-pointer relative overflow-hidden flex flex-col"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export default function Services() {
   return (
     <section id="services" className="py-32 bg-white text-gray-900 relative">
@@ -61,15 +110,7 @@ export default function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-t border-l border-gray-200 border-dashed">
           {services.map((service, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              whileHover={{ y: -4, backgroundColor: "#f0fdf4" }}
-              className="p-10 border-r border-b border-gray-200 border-dashed group transition-all duration-300 cursor-pointer relative overflow-hidden flex flex-col"
-            >
+            <TiltCard key={index} index={index}>
               <div className="w-14 h-14 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-300">
                 <service.icon size={28} strokeWidth={1.5} />
               </div>
@@ -77,7 +118,7 @@ export default function Services() {
               <p className="text-gray-500 leading-relaxed text-sm md:text-base mt-auto">
                 {service.description}
               </p>
-            </motion.div>
+            </TiltCard>
           ))}
           <div className="hidden lg:block p-10 border-r border-b border-gray-200 border-dashed bg-gray-50/30"></div>
           <div className="hidden lg:block p-10 border-r border-b border-gray-200 border-dashed bg-gray-50/30"></div>
