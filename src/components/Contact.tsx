@@ -57,7 +57,7 @@ export default function Contact() {
                   <Phone size={24} strokeWidth={1.5} />
                 </div>
                 <div className="text-sm text-gray-500 mb-2 font-medium uppercase tracking-wider">Teléfono</div>
-                <div className="font-medium text-lg text-gray-200">660 144 754</div>
+                <a href="tel:+34660144754" className="font-medium text-lg text-gray-200 hover:text-blue-400 transition-colors">660 144 754</a>
               </div>
               
               <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors group">
@@ -65,7 +65,7 @@ export default function Contact() {
                   <Mail size={24} strokeWidth={1.5} />
                 </div>
                 <div className="text-sm text-gray-500 mb-2 font-medium uppercase tracking-wider">Email</div>
-                <div className="font-medium text-lg text-gray-200">voltimur@outlook.es</div>
+                <a href="mailto:voltimur@outlook.es" className="font-medium text-lg text-gray-200 hover:text-blue-400 transition-colors">voltimur@outlook.es</a>
               </div>
 
               <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors group">

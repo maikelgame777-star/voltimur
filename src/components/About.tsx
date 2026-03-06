@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 
 export default function About() {
   return (
-    <section className="py-32 bg-gray-50 text-gray-900 border-t border-gray-200 border-dashed relative overflow-hidden">
+    <section id="about" className="py-32 bg-gray-50 text-gray-900 border-t border-gray-200 border-dashed relative overflow-hidden">
       {/* Background abstract shapes */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-blue-50/50 to-transparent pointer-events-none"></div>
       
