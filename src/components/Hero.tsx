@@ -9,22 +9,18 @@ export default function Hero() {
         {/* Subtle background pattern */}
         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay"></div>
 
-        {/* Soft animated gradient orbs */}
+        {/* Static gradient orbs — no scale animation to avoid blur recalc every frame */}
         <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.15, 0.3, 0.15],
-          }}
+          animate={{ opacity: [0.18, 0.28, 0.18] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 -left-64 w-[600px] h-[600px] bg-emerald-600/25 rounded-full blur-[120px]"
+          className="absolute top-1/4 -left-64 w-[600px] h-[600px] bg-emerald-600/25 rounded-full blur-[80px]"
+          style={{ willChange: 'opacity' }}
         />
         <motion.div
-          animate={{
-            scale: [1, 1.5, 1],
-            opacity: [0.1, 0.2, 0.1],
-          }}
+          animate={{ opacity: [0.08, 0.16, 0.08] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute bottom-1/4 -right-64 w-[800px] h-[800px] bg-amber-500/15 rounded-full blur-[120px]"
+          className="absolute bottom-1/4 -right-64 w-[800px] h-[800px] bg-amber-500/15 rounded-full blur-[80px]"
+          style={{ willChange: 'opacity' }}
         />
 
         {/* Grid shimmer */}
